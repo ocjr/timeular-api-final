@@ -33,7 +33,7 @@ def get_entry_by_id(id: str, token: str) -> Dict[str, any]:
         # make request
         response = requests.get(url, headers=headers)
 
-        response.raise_for_status() # raise an exception for any unsuccessful response codes
+        response.raise_for_status()  # raise an exception for any unsuccessful response codes
     except requests.exceptions.RequestException as e:
         logger.exception(f"An error occurred while making the request to {url}: {e}")
         raise
@@ -53,17 +53,22 @@ def get_entry_by_timestamp(
 ) -> List[Dict[str, any]]:
     """
     Retrieves time entries between two timestamps in the specified timezone.
-    
+
     Parameters:
         start_timestamp (datetime): The start timestamp for the time entries.
         end_timestamp (datetime): The end timestamp for the time entries.
         token (str): The user's Timeular API token.
         timezone (str): The timezone to use for the timestamps. Defaults to "America/Chicago".
-    
+
     Returns:
         List[Dict[str, any]]: A list of time entries between the two timestamps.
     """
-    logger.info("Retrieving time entries between %s and %s in timezone %s", start_timestamp, end_timestamp, timezone)
+    logger.info(
+        "Retrieving time entries between %s and %s in timezone %s",
+        start_timestamp,
+        end_timestamp,
+        timezone,
+    )
     # url for get entry by id
     url = entry_by_timestamp_url_constructer(
         start_time=start_timestamp, end_time=end_timestamp, timezone=timezone
@@ -76,7 +81,7 @@ def get_entry_by_timestamp(
         # make request
         response = requests.get(url, headers=headers)
 
-        response.raise_for_status() # raise an exception for any unsuccessful response codes
+        response.raise_for_status()  # raise an exception for any unsuccessful response codes
     except requests.exceptions.RequestException as e:
         logger.exception(f"An error occurred while making the request to {url}: {e}")
         raise
@@ -122,7 +127,9 @@ def entry_by_timestamp_url_constructer(
     start_time_str = start_time_utc.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
     end_time_str = end_time_utc.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3]
 
-    logging.info(f"Constructing URL for entries between {start_time} and {end_time} in timezone {timezone}")
+    logging.info(
+        f"Constructing URL for entries between {start_time} and {end_time} in timezone {timezone}"
+    )
 
     # return the url in the correct format.
     return url_format.format(start_time_str, end_time_str)

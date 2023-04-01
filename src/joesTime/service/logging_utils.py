@@ -2,6 +2,7 @@
 import logging
 import os
 
+
 def setup_logging():
     log_filename = os.path.join(os.getcwd(), "joesTime_log.txt")
     logger = logging.getLogger()
@@ -12,7 +13,9 @@ def setup_logging():
     fh.setLevel(logging.INFO)
 
     # Create a formatter for the log messages
-    formatter = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+    formatter = logging.Formatter(
+        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    )
     fh.setFormatter(formatter)
 
     # Add the file handler to the logger

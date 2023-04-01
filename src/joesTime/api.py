@@ -63,7 +63,7 @@ def logout(token: str) -> str:
         A string containing the response text from the logout request.
     """
     logger.info("Logging out of the Timeular API")
- 
+
     # url for logout
     url = "https://api.timeular.com/api/v3/developer/api-access"
 
@@ -76,5 +76,5 @@ def logout(token: str) -> str:
     response = requests.request("POST", url, headers=headers, data=payload)
 
     logger.debug("Logout response: %s", response.text)
-    
+
     return response.text
