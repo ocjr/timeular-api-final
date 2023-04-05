@@ -133,3 +133,25 @@ def entry_by_timestamp_url_constructer(
 
     # return the url in the correct format.
     return url_format.format(start_time_str, end_time_str)
+
+
+def get_tags_mentions(token: str) -> str:
+    
+    logger.info(
+        "Retrieving tags and mentions from Timeular"
+    )
+
+    url = "https://api.timeular.com/api/v3/tags-and-mentions"
+
+    payload={}
+    headers = {
+    'Authorization': 'Bearer ' + token
+    }
+
+    response = requests.request("GET", url, headers=headers, data=payload)
+
+    data = response.json()
+
+    logger.info("Retrieved %d tag and mention entries", len(data))
+
+    return data
