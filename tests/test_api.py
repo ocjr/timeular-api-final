@@ -16,24 +16,25 @@ def test_logout(token):
 class TestAPIFunctions(unittest.TestCase):
     @patch("requests.request")
     @patch("getpass.getpass")
-    def test_get_entry_by_id(self, mock_request,mock_getpass):
+    def test_get_entry_by_id(self, mock_request,mock_getpass, mock_login):
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.text = '{"id": "12345", "description": "test entry"}'
         mock_request.return_value = mock_response
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
+        mock_login.return_value = {"token": "NEW TOKEN"}
         token = login()
         assert login()["token"] is not None
 
         # Call the function with mock data
-        data = get_entry_by_id("12345", token)
+        data = get_entry_by_id("12345", token["token"])
 
         # Check that the mock request was called with the correct arguments
         mock_request.assert_called_with(
             "GET",
             "https://api.timeular.com/api/v3/time-entries/12345",
-            headers={"Authorization": token},
+            headers={"Authorization": token["token"]},
             data={},
         )
 
@@ -41,18 +42,19 @@ class TestAPIFunctions(unittest.TestCase):
         expected_data = {"id": "12345", "description": "test entry"}
         self.assertEqual(data, expected_data)
 
-        assert logout(token) == {"apiKey": os.environ['MY_APIKEY'], "apiSecret":os.environ['MY_APISECRET']}
+        assert logout(token["token"]) == {"apiKey": os.environ['MY_APIKEY'], "apiSecret":os.environ['MY_APISECRET']}
 
 
     @patch("requests.request")
     @patch("getpass.getpass")
-    def test_get_entry_by_timestamp(self, mock_request, mock_getpass):
+    def test_get_entry_by_timestamp(self, mock_request, mock_getpass, mock_login):
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.text = '[{"id": "12345", "description": "test entry 1"}, {"id": "67890", "description": "test entry 2"}]'
         mock_request.return_value = mock_response
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
+        mock_login.return_value = {"token": "NEW TOKEN"}
         token = login()
         assert login()["token"] is not None
 
@@ -60,7 +62,7 @@ class TestAPIFunctions(unittest.TestCase):
         start_time = dt.datetime(2023, 3, 30, 0, 0, 0)
         end_time = dt.datetime(2023, 3, 31, 0, 0, 0)
         data = get_entry_by_timestamp(
-            start_time, end_time, token, "America/New_York"
+            start_time, end_time, token["token"], "America/New_York"
         )
 
         # Check that the mock request was called with the correct arguments
@@ -68,7 +70,7 @@ class TestAPIFunctions(unittest.TestCase):
         mock_request.assert_called_with(
             "GET",
             expected_url,
-            headers={"Authorization": token},
+            headers={"Authorization": token["token"]},
             data={},
         )
 
@@ -79,4 +81,4 @@ class TestAPIFunctions(unittest.TestCase):
         ]
         self.assertEqual(data, expected_data)
 
-        assert logout(token) == {"apiKey": os.environ['MY_APIKEY'], "apiSecret":os.environ['MY_APISECRET']}
+        assert logout(token["token"]) == {"apiKey": os.environ['MY_APIKEY'], "apiSecret":os.environ['MY_APISECRET']}
