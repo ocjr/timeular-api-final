@@ -1,5 +1,5 @@
 name: Pytest and Black
-
+    
 on:
   push:
     branches: [main]
@@ -11,9 +11,15 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Install dependencies
-      run: |
+      run: 
+        pip install setuptools
+        pip install wheel
         pip install git+https://github.com/ocjr/timeular-api-final.git
     - name: Run pytest
-      run: pytest
+      env:
+        MY_ACCESS_TOKEN: ${{ secrets.MY_ACCESS_TOKEN }}
+      run: pytest --token=${MY_ACCESS_TOKEN}
     - name: Run black
       run: black .
+    - name: Run mypy
+      run: mypy --ignore-missing-imports src/
