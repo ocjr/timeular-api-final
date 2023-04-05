@@ -15,6 +15,7 @@ def test_logout(token):
 
 class TestAPIFunctions(unittest.TestCase):
     @patch("requests.request")
+    @patch("getpass.getpass")
     def test_get_entry_by_id(self, mock_request,mock_getpass):
         mock_response = Mock()
         mock_response.status_code = 200
@@ -40,10 +41,11 @@ class TestAPIFunctions(unittest.TestCase):
         expected_data = {"id": "12345", "description": "test entry"}
         self.assertEqual(data, expected_data)
 
-        assert logout(token) == "success"
+        assert logout(token) == {"apiKey": os.environ['MY_APIKEY'], "apiSecret":os.environ['MY_APISECRET']}
 
 
     @patch("requests.request")
+    @patch("getpass.getpass")
     def test_get_entry_by_timestamp(self, mock_request, mock_getpass):
         mock_response = Mock()
         mock_response.status_code = 200
@@ -77,4 +79,4 @@ class TestAPIFunctions(unittest.TestCase):
         ]
         self.assertEqual(data, expected_data)
 
-        assert logout(token) == "success"
+        assert logout(token) == {"apiKey": os.environ['MY_APIKEY'], "apiSecret":os.environ['MY_APISECRET']}
