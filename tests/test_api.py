@@ -16,6 +16,7 @@ def test_logout(token):
 class TestAPIFunctions(unittest.TestCase):
     @patch("requests.request")
     @patch("getpass.getpass")
+    @patch("joesTime.api.login")
     def test_get_entry_by_id(self, mock_request, mock_getpass, mock_login):
         mock_response = Mock()
         mock_response.status_code = 200
@@ -52,6 +53,7 @@ class TestAPIFunctions(unittest.TestCase):
 
     @patch("requests.request")
     @patch("getpass.getpass")
+    @patch("joesTime.api.login")
     def test_get_entry_by_timestamp(self, mock_request, mock_getpass, mock_login):
         mock_response = Mock()
         mock_response.status_code = 200
