@@ -24,8 +24,8 @@ class TestAPIFunctions(unittest.TestCase):
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
         mock_login.return_value = {"token": "NEW TOKEN"}
-        token = login()
-        assert login()["token"] is not None
+        token = login(mock_login)
+        assert token is not None
 
         # Call the function with mock data
         data = get_entry_by_id("12345", token["token"])
@@ -55,8 +55,8 @@ class TestAPIFunctions(unittest.TestCase):
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
         mock_login.return_value = {"token": "NEW TOKEN"}
-        token = login()
-        assert login()["token"] is not None
+        token = login(mock_login)
+        assert token is not None
 
         # Call the function with mock data
         start_time = dt.datetime(2023, 3, 30, 0, 0, 0)
