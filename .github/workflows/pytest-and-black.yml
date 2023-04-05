@@ -17,8 +17,9 @@ jobs:
         pip install git+https://github.com/ocjr/timeular-api-final.git
     - name: Run pytest
       env:
-        MY_ACCESS_TOKEN: ${{ secrets.MY_ACCESS_TOKEN }}
-      run: pytest --token=${MY_ACCESS_TOKEN}
+        MY_APIKEY: ${{ secrets.MY_APIKEY }}
+        MY_APISECRET: ${{ secrets.MY_APISECRET }}
+      run: pytest
     - name: Run black
       run: black .
     - name: Run mypy
