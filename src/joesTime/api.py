@@ -42,7 +42,8 @@ def login() -> dict:
 
     # log the response status code and text
     logger.info("Received response %s", response)
-    logger.debug("Response text: %s", response.text)
+    if hasattr(response, 'text'): 
+        logger.debug("Response text: %s", response.text)
 
     token = json.loads(response.text)
 
