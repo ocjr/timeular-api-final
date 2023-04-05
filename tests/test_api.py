@@ -16,7 +16,7 @@ def test_logout(token):
 class TestAPIFunctions(unittest.TestCase):
     @patch("requests.request")
     @patch("getpass.getpass")
-    def test_get_entry_by_id(self, mock_request,mock_getpass, mock_login):
+    def test_get_entry_by_id(self, mock_request, mock_getpass, mock_login):
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.text = '{"id": "12345", "description": "test entry"}'
@@ -24,7 +24,11 @@ class TestAPIFunctions(unittest.TestCase):
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
         mock_login.return_value = {"token": "NEW TOKEN"}
+
+        # Call the login function to get the token
         token = login(mock_login)
+
+        # Check that the token is not None
         assert token is not None
 
         # Call the function with mock data
@@ -42,6 +46,7 @@ class TestAPIFunctions(unittest.TestCase):
         expected_data = {"id": "12345", "description": "test entry"}
         self.assertEqual(data, expected_data)
 
+        # Call the logout function to invalidate the token
         assert logout(token["token"]) == {"apiKey": os.environ['MY_APIKEY'], "apiSecret":os.environ['MY_APISECRET']}
 
 
@@ -55,7 +60,11 @@ class TestAPIFunctions(unittest.TestCase):
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
         mock_login.return_value = {"token": "NEW TOKEN"}
+
+        # Call the login function to get the token
         token = login(mock_login)
+
+        # Check that the token is not None
         assert token is not None
 
         # Call the function with mock data
