@@ -41,7 +41,7 @@ def login() -> dict:
     response = requests.request("POST", url, headers=headers, data=payload)
 
     # log the response status code and text
-    logger.info("Received response with status code %s", response.status_code)
+    logger.info("Received response %s", response)
     logger.debug("Response text: %s", response.text)
 
     token = json.loads(response.text)
@@ -75,6 +75,6 @@ def logout(token: str) -> str:
 
     response = requests.request("POST", url, headers=headers, data=payload)
 
-    logger.debug("Logout response: %s", response.text)
+    logger.debug("Logout response: %s", response)
 
     return response.text
