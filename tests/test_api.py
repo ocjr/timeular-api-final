@@ -27,7 +27,7 @@ class TestAPIFunctions(unittest.TestCase):
         mock_login.return_value = {"token": "NEW TOKEN"}
 
         # Call the login function to get the token
-        token = login(mock_login)
+        token = login()
 
         # Check that the token is not None
         assert token is not None
@@ -64,7 +64,7 @@ class TestAPIFunctions(unittest.TestCase):
         mock_login.return_value = {"token": "NEW TOKEN"}
 
         # Call the login function to get the token
-        token = login(mock_login)
+        token = login()
 
         # Check that the token is not None
         assert token is not None
