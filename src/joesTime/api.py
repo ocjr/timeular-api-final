@@ -45,10 +45,11 @@ def login() -> dict:
     if hasattr(response, 'text'): 
         logger.debug("Response text: %s", response.text)
 
-    token = json.loads(response.text)
+        token = json.loads(response.text)
 
-    return token
-
+        return token
+    else:
+        return response
 
 def logout(token: str) -> str:
     """
@@ -78,4 +79,9 @@ def logout(token: str) -> str:
 
     logger.debug("Logout response: %s", response)
 
-    return response.text
+    if hasattr(response, 'text'): 
+        logger.debug("Response text: %s", response.text)
+
+        return response.text
+    else:
+        return response
