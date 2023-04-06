@@ -16,15 +16,13 @@ def test_logout(token):
 class TestAPIFunctions(unittest.TestCase):
     @patch("requests.request")
     @patch("getpass.getpass")
-    @patch("joesTime.api.login")
-    def test_get_entry_by_id(self, mock_request, mock_getpass, mock_login):
+    def test_get_entry_by_id(self, mock_request, mock_getpass):
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.text = '{"id": "12345", "description": "test entry"}'
         mock_request.return_value = mock_response
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
-        mock_login.return_value = {"token": "NEW TOKEN"}
 
         # Call the login function to get the token
         token = login()
@@ -53,15 +51,13 @@ class TestAPIFunctions(unittest.TestCase):
 
     @patch("requests.request")
     @patch("getpass.getpass")
-    @patch("joesTime.api.login")
-    def test_get_entry_by_timestamp(self, mock_request, mock_getpass, mock_login):
+    def test_get_entry_by_timestamp(self, mock_request, mock_getpass):
         mock_response = Mock()
         mock_response.status_code = 200
         mock_response.text = '[{"id": "12345", "description": "test entry 1"}, {"id": "67890", "description": "test entry 2"}]'
         mock_request.return_value = mock_response
 
         mock_getpass.side_effect = [os.environ['MY_APIKEY'], os.environ['MY_APISECRET']]
-        mock_login.return_value = {"token": "NEW TOKEN"}
 
         # Call the login function to get the token
         token = login()
